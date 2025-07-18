@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dji.sampleV5.aircraft">
+    package="com.dronescan.msdksample">
 
     <!-- Sample permission requirement -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -38,7 +38,7 @@
 
         <meta-data
             android:name="com.dji.sdk.API_KEY"
-            android:value="${API_KEY}"/>
+            android:value="3196948d4ecce3e531187b11"/>
 
         <!-- Maplibre Token-->
         <meta-data

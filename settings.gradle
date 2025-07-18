@@ -12,11 +12,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Si el SDK de DJI 5.15.0 necesita este repositorio, debe estar aquí.
-        // Si no, se puede comentar o eliminar.
-        // maven { url 'https://developer.dji.com/maven/' }
+        // Este repositorio es crucial para el SDK de DJI 5.15.0 con AGP 7.x
+        maven { url 'https://developer.dji.com/maven/' }
     }
 }
 
 rootProject.name = "DroneScan_V4"
-include(":app", ":uxsdk") // ¡Asegúrate de que ambos módulos estén incluidos así!
+include(":app", ":uxsdk") // Asegúrate de que ambos módulos estén incluidos

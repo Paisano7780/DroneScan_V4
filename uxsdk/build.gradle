@@ -1,70 +1,69 @@
+// DroneScan_V4/uxsdk/build.gradle
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
+    namespace 'dji.v5.ux' // Mantener namespace, es buena práctica
+    compileSdkVersion 33 // CAMBIADO: A 33
+    buildToolsVersion "33.0.0" // Asegúrate de tener esta versión instalada en SDK Manager
 
-    resourcePrefix "uxsdk_"
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.ANDROID_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
+        minSdkVersion 24
+        targetSdkVersion 33 // CAMBIADO: A 33
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    kotlinOptions{
-        jvmTarget = JavaVersion.VERSION_1_8
-        freeCompilerArgs += ["-Xjvm-default=all"]
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
-    buildFeatures {
-        viewBinding true
+    // Bloque 'packagingOptions' del sample de DJI
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/DEPENDENCIES'
+    }
+
+    lintOptions {
+        // Deshabilita la interrupción del build por errores de lint, como en el sample de DJI
+        abortOnError false
     }
 }
 
 dependencies {
-    implementation deps.annotation
-    implementation deps.appcompat
-    implementation deps.multidex
-    implementation deps.legacySupport
-    implementation deps.recyclerview
-    implementation deps.okio
-    implementation deps.wire
-    implementation deps.constraintLayout
-    implementation deps.lifecycleJava8
-    implementation deps.lifecycleRuntime
-    implementation deps.lifecycleProcess
-    implementation deps.media
-    implementation deps.kotlinLib
-    implementation deps.ktxCore
-    implementation deps.rx3Android
-    implementation deps.wpmzSdk
-    implementation deps.rx3Kt
-    implementation deps.lottie
-    implementation deps.cardview
-    implementation deps.mikepenzCommunityMaterial
-    implementation deps.mikepenzGoogleMaterial
-    implementation deps.mikepenzIconicsViews
-    implementation deps.mikepenzIconicsCore
-    implementation deps.mikepenzIonicons
-    implementation deps.material
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.6.1' // Versión actualizada, compatible con AGP 7.4.2
+    implementation 'androidx.core:core-ktx:1.9.0' // Versión actualizada, compatible con AGP 7.4.2
 
-    api deps.maplibreTurf
-    api deps.maplibreSdk
+    // DJI SDK (como librería, no provided, ya que es una librería)
+    api 'com.dji:dji-sdk-v5-aircraft:5.15.0'
+    api 'com.dji:dji-sdk-v5-networkImp:5.15.0' // Usar 'api' para que las dependencias sean transitivas
 
-
-    api deps.playservicesplaces
-    api deps.playservicesmaps
-    api deps.playserviceslocation
-    api deps.playservicesbase
-
-    compileOnly deps.aircraftProvided
-    implementation deps.aircraft
-
+    // Test
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
