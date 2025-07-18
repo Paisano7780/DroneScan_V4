@@ -1,5 +1,19 @@
-include ':sample'
-project(':sample').projectDir = new File(rootProject.projectDir, '../android-sdk-v5-sample')
+// DroneScan_V4/settings.gradle
 
-include ':uxsdk'// uxsdk模块
-project(':uxsdk').projectDir = new File(rootProject.projectDir, '../android-sdk-v5-uxsdk')
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "DroneScan_V4"
+include(":app", ":uxsdk") // ¡Asegúrate de que ambos módulos estén incluidos así!
