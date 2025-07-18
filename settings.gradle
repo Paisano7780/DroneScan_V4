@@ -12,6 +12,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Si el SDK de DJI 5.15.0 necesita este repositorio, debe estar aquí.
+        // Si no, se puede comentar o eliminar.
+        // maven { url 'https://developer.dji.com/maven/' }
     }
 }
 
